@@ -57,7 +57,7 @@ app.get("/", async (req, res) => {
     const db = await dbPromise;
     let tasks = await db.all("SELECT task_id, task_desc, is_complete FROM tasks WHERE user_id = ?", req.user.user_id);
     console.log(tasks);
-    res.render("home", {layout: "main"});
+    res.render("home", {layout: "main", username: req.user.username, tasks: tasks});
 })
 
 app.get("/login", async (req, res) => {
@@ -123,10 +123,9 @@ app.post("/login", async (req, res) => {
 })
 
 app.post("/add_task", async (req, res) => {
-    let authtoken = req.cookies.authToken;
     let task_desc = req.body.task_desc;
+    let user_id = req.user.user_id;
     let db = await dbPromise;
-    let user_id = await db.get("SELECT user_id FROM authtokens WHERE authtoken = ?", authtoken);
     await db.run("INSERT INTO tasks (user_id, task_desc, is_complete) VALUES (?, ?, ?)", user_id, task_desc, false);
     res.redirect("/");
 })
