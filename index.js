@@ -122,6 +122,15 @@ app.post("/login", async (req, res) => {
     res.redirect("/");
 })
 
+app.post("/add_task", async (req, res) => {
+    let authtoken = req.cookies.authToken;
+    let task_desc = req.body.task_desc;
+    let db = await dbPromise;
+    let user_id = await db.get("SELECT user_id FROM authtokens WHERE authtoken = ?", authtoken);
+    await db.run("INSERT INTO tasks (user_id, task_desc, is_complete) VALUES (?, ?, ?)", user_id, task_desc, false);
+    res.redirect("/");
+})
+
 app.listen(port, () => {
     console.log("Listening on port " + port);
 });
