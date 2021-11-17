@@ -84,8 +84,8 @@ app.post("/register", async (req, res) => {
         return res.render("register", {error: "Passwords must match"});
     }
     const db = await dbPromise;
-    let check = db.get("SELECT * FROM users WHERE username = ?", username);
-    if (check.username != null) {
+    let check = await db.get("SELECT * FROM users WHERE username = ?", username);
+    if (check != undefined) {
         return res.render("register", {error: "Username already exists"});
     }
 
@@ -107,7 +107,8 @@ app.post("/login", async (req, res) => {
 
     const db = await dbPromise;
     let userRequest = await db.get("SELECT * FROM users WHERE username = ?", username);
-    if (userRequest.username == null) {
+    console.log(userRequest);
+    if (userRequest == undefined) {
         return res.render("login", {error: "Error: username or password incorrect"});
     }
     let same = await bcrypt.compare(pass, userRequest.password);
