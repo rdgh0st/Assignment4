@@ -10,10 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "cookie-parser": "^1.4.5",
+    "cookie-parser": "^1.4.6",
     "esm": "^3.2.25",
     "express": "^4.17.1",
-    "express-handlebars": "^5.3.4",
+    "express-handlebars": "5.3",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
     "uuid": "^8.3.2"

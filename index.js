@@ -4,7 +4,7 @@ Date: 11/12/2021
 Description:
 */
 
-// initialize the dependencies
+// initialize the dependencies-- note that I am using handlebars v5.3
 const sqlite3 = require("sqlite3");
 const sqlite = require("sqlite");
 const express = require("express");
@@ -29,7 +29,25 @@ const dbPromise = sqlite.open({
     driver: sqlite3.Database
 });
 
+
 // initialize landing page based on if the user is logged in or not
-app.get("/", (req, res) => {
-    
+app.get("/", async (req, res) => {
+    res.render("home", {layout: "main"});
 })
+
+app.get("/login", async (req, res) => {
+    res.render("login", {layout: "main"});
+})
+
+app.get("/register", async (req, res) => {
+    res.render("register", {layout: main});
+})
+
+app.get("/logout", async (req, res) => {
+    res.clearCookie(authToken);
+    res.redirect("/login");
+})
+
+app.listen(port, () => {
+    console.log("Listening on port " + port);
+});
